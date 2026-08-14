@@ -1,138 +1,86 @@
-# Online Shopper Purchase Intention Prediction — ML Assignment 2 Mayank Patil 2025ac05450
+# ML Assignment 2 — Online Shoppers Purchasing Intention Classification
+Mayank Patil 2025ac05450
+## a. Problem Statement
+Predict whether an online shopping session will result in a purchase using multiple classification models and compare their performance through an interactive Streamlit application.
 
-## 1. Problem Statement
-
-The objective is to build and compare classification models that predict whether an online shopping session will end in a purchase. The target variable is `Revenue`.
-
-This project implements the classification workflow required for the BITS Pilani Machine Learning Assignment 2 and provides an interactive Streamlit application for evaluating the trained models on test data.
-
-## 2. Dataset Description
-
+## b. Dataset Description
 **Dataset:** Online Shoppers Purchasing Intention Dataset  
 **Source:** UCI Machine Learning Repository  
-**UCI dataset ID:** 468  
-**DOI:** 10.24432/C5F88Q
+**Instances:** 12,330  
+**Input Features:** 17  
+**Target:** `Revenue`  
+**Problem:** Binary classification  
+**0 / False:** No Purchase  
+**1 / True:** Purchase  
 
-The dataset contains **12,330 online shopping sessions and 17 input features**, with `Revenue` as the binary target. UCI reports no missing values. The dataset contains numerical and categorical attributes such as page visits, page durations, bounce rate, exit rate, page value, month, operating system, browser, region, traffic type, visitor type and weekend status.
+The dataset satisfies the assignment requirement of at least 500 instances and at least 12 features.
 
-Dataset source:
-https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset
+## c. GitHub Repository Link
+https://github.com/mayankpatil1112/ml-online-shoppers-classification
 
-### Target
+## Live Streamlit App
+https://ml-online-shoppers-classification-hsqqpt9yimx6my3qsncfak.streamlit.app/
 
-- `Revenue = 0`: session did not result in a purchase
-- `Revenue = 1`: session resulted in a purchase
-
-### Class Distribution
-
-- No purchase: 10,422
-- Purchase: 1,908
-
-Because the positive class is smaller, class imbalance is considered in the Logistic Regression, Decision Tree and Random Forest models using `class_weight="balanced"`.
-
-## 3. Data Preparation
-
-1. Loaded the original UCI CSV.
-2. Separated `Revenue` as the target.
-3. Identified numerical and categorical features.
-4. Applied `StandardScaler` to numerical variables.
-5. Applied `OneHotEncoder(handle_unknown="ignore")` to categorical variables.
-6. Used a stratified 80:20 train/test split.
-7. Random state: 42.
-8. Saved the fixed test set as `test_data.csv`.
-
-All preprocessing is implemented inside scikit-learn pipelines to prevent data leakage between training and testing.
-
-## 4. Models Used
-
-The five models required by the assignment are:
-
+## d. Models Used
 1. Logistic Regression
 2. Decision Tree Classifier
 3. K-Nearest Neighbor (kNN)
 4. Gaussian Naive Bayes
 5. Random Forest (Ensemble)
 
-## 5. Evaluation Metrics
+## Evaluation Metrics
+Accuracy, AUC, Precision, Recall, F1 Score, and Matthews Correlation Coefficient (MCC).
 
-Every model is evaluated using:
-
-- Accuracy
-- AUC
-- Precision
-- Recall
-- F1 Score
-- Matthews Correlation Coefficient (MCC)
-
-## 6. Model Comparison
+## Model Comparison
 
 | ML Model Name | Accuracy | AUC | Precision | Recall | F1 | MCC |
 |---|---:|---:|---:|---:|---:|---:|
-| Logistic Regression | 0.8500 | 0.8962 | 0.5107 | 0.7487 | 0.6072 | 0.5330 |\n| Decision Tree | 0.8410 | 0.8850 | 0.4921 | 0.8168 | 0.6142 | 0.5483 |\n| kNN | 0.8767 | 0.8330 | 0.7191 | 0.3351 | 0.4571 | 0.4349 |\n| Naive Bayes | 0.6736 | 0.7932 | 0.2937 | 0.7880 | 0.4279 | 0.3234 |\n| Random Forest | 0.8978 | 0.9213 | 0.7444 | 0.5183 | 0.6111 | 0.5665 |\n
+| Logistic Regression | 0.84996 | 0.89620 | 0.70750 | 0.53272 | 0.60722 | 0.52648 |
+| Decision Tree | 0.84104 | 0.88498 | 0.69424 | 0.55026 | 0.61417 | 0.52035 |
+| kNN | 0.87672 | 0.83300 | 0.79167 | 0.31937 | 0.45714 | 0.42178 |
+| Naive Bayes | 0.67356 | 0.79316 | 0.30612 | 0.70419 | 0.42786 | 0.28920 |
+| Random Forest (Ensemble) | **0.89781** | **0.92133** | **0.74436** | 0.51832 | 0.61111 | **0.56650** |
 
-## 7. Observations
+## Observations
 
-### Logistic Regression
-Provides a strong baseline and identifies a substantial portion of purchasing sessions. Scaling and one-hot encoding are important because the dataset contains mixed feature types.
+| ML Model Name | Observation |
+|---|---|
+| Logistic Regression | Strong baseline with good AUC and balanced overall performance. |
+| Decision Tree | Captures non-linear relationships and achieves the highest F1 score among the five models. |
+| kNN | Good accuracy, but comparatively lower recall and F1 for purchase prediction. |
+| Naive Bayes | Higher recall, but substantially lower accuracy, precision, F1 and MCC. |
+| Random Forest (Ensemble) | Highest Accuracy, AUC and MCC, giving the strongest overall performance. |
 
-### Decision Tree
-Provides the highest Recall and F1 among the five models on this fixed test split. It captures non-linear relationships but is less accurate overall than the Random Forest.
+## Overall Winner
+**Random Forest (Ensemble)** is the overall winner based on the strongest combined performance across Accuracy, AUC and MCC. Decision Tree has the highest F1 score, which is also acknowledged.
 
-### kNN
-Achieves good overall accuracy but has lower recall for the purchase class. Distance-based classification is sensitive to feature representation, so numerical scaling is used.
+## Train/Test Split
+- Training instances: 9,864
+- Test instances: 2,466
+- Test size: 20%
+- Random state: 42
+- Stratified split: Yes
 
-### Naive Bayes
-Has the highest recall among the models except the Decision Tree, but its overall accuracy and F1 are lower. The independence assumption is restrictive for correlated shopping-session variables.
-
-### Random Forest
-Achieves the highest Accuracy, AUC and MCC on the fixed test split. The ensemble of trees captures non-linear interactions while reducing the variance of a single decision tree.
-
-### Overall Winner
-
-**Random Forest** is selected as the overall winner because it gives the best combination of Accuracy, AUC and MCC on the fixed test set. The Decision Tree has a marginally higher F1 score, so F1 should be highlighted separately when the priority is identifying purchase sessions.
-
-## 8. Streamlit Application
-
-The application includes:
-
+## Streamlit Application Features
 - CSV test-data upload
-- Model-selection dropdown
-- Comparison table for all five models
-- Accuracy
-- AUC
-- Precision
-- Recall
-- F1
-- MCC
+- Model selection dropdown
+- Model comparison table
+- Accuracy, AUC, Precision, Recall, F1 and MCC
 - Confusion matrix
 - Classification report
 - Test-data preview
 
-The application evaluates the uploaded test data using the same saved pipelines used during model development.
-
-## 9. GitHub Repository Link
-
-https://github.com/mayankpatil1112/ML-online-shoppers-classification
-
-## 10. Live Streamlit App Link
-
-https://ml-online-shoppers-classification-hsqqpt9yimx6my3qsncfak.streamlit.app/
-
-## 11. Project Structure
-
+## Project Structure
 ```text
 ML-online-shoppers-classification/
-│
 ├── app.py
 ├── train_models.py
 ├── requirements.txt
 ├── README.md
 ├── test_data.csv
 ├── model_metrics.csv
-│
 ├── data/
 │   └── online_shoppers_intention.csv
-│
 └── model/
     ├── logistic_regression.joblib
     ├── decision_tree.joblib
@@ -141,8 +89,7 @@ ML-online-shoppers-classification/
     └── random_forest.joblib
 ```
 
-## 12. Run Locally
-
+## How to Run
 ```bash
 python -m venv venv
 venv\Scripts\activate
@@ -150,30 +97,10 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-To retrain the models:
+## Deployment
+Deployed using Streamlit Community Cloud.
 
-```bash
-python train_models.py
-```
+**Live App:** https://ml-online-shoppers-classification-hsqqpt9yimx6my3qsncfak.streamlit.app/
 
-## 13. Deployment
-
-The app is designed for Streamlit Community Cloud.
-
-1. Push the complete repository to GitHub.
-2. Open Streamlit Community Cloud.
-3. Create a new app.
-4. Select the GitHub repository.
-5. Select the `main` branch.
-6. Select `app.py`.
-7. Deploy.
-8. Test CSV upload and every model.
-9. Copy the generated `streamlit.app` URL into the final submission PDF.
-
-## 14. Academic Integrity
-
-This implementation is intended for learning support. Before submission, run the project yourself, inspect the code, understand the preprocessing and metrics, and customize the presentation where appropriate. The BITS assignment states that GitHub history and copied datasets/models/outputs may be checked.
-
-## 15. Dataset Citation
-
-Sakar, C. O., & Kastro, Y. (2018). Online Shoppers Purchasing Intention Dataset. UCI Machine Learning Repository. https://doi.org/10.24432/C5F88Q
+## Dataset Citation
+Online Shoppers Purchasing Intention Dataset, UCI Machine Learning Repository.
