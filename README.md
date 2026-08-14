@@ -114,13 +114,13 @@ The application evaluates the uploaded test data using the same saved pipelines 
 
 **Replace with your actual repository URL:**
 
-`https://github.com/mayankpatil1112/ML-online-shoppers-classification`
+https://github.com/mayankpatil1112/ML-online-shoppers-classification
 
 ## 10. Live Streamlit App Link
 
 **Replace after deployment:**
 
-`https://ml-online-shoppers-classification-hsqqpt9yimx6my3qsncfak.streamlit.app/`
+https://ml-online-shoppers-classification-hsqqpt9yimx6my3qsncfak.streamlit.app/
 
 ## 11. Project Structure
 
